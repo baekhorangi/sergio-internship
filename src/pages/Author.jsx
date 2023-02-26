@@ -1,10 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
+import Skeleton from "../components/UI/Skeleton";
 
 const Author = () => {
+  const { authorId } = useParams();
+  const [author, setAuthor] = useState(null);
+  const [followers, setFollowers] = useState(0);
+  const [followStatus, setFollowStatus] = useState("Follow");
+
+  const fetchAuthor = async () => {
+    const { data } = await axios.get(
+      `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${authorId}`
+    );
+    setFollowers(data.followers);
+    setAuthor(data);
+  };
+
+  useEffect(() => {
+    fetchAuthor();
+  }, []);
+
+  const handleFollow = () => {
+    if (followStatus === "Follow") {
+      setFollowStatus("Unfollow");
+      setFollowers(followers + 1);
+    } else {
+      setFollowStatus("Follow");
+      setFollowers(followers - 1);
+    }
+  };
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -15,8 +43,7 @@ const Author = () => {
           aria-label="section"
           className="text-light"
           data-bgimage="url(images/author_banner.jpg) top"
-          style={{ background: `url(${AuthorBanner}) top` }}
-        ></section>
+          style={{ background: `url(${AuthorBanner}) top` }}></section>
 
         <section aria-label="section">
           <div className="container">
@@ -25,29 +52,65 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={AuthorImage} alt="" />
+                      {author ? (
+                        <img src={author.authorImage} alt="" />
+                      ) : (
+                        <Skeleton
+                          width={"150px"}
+                          height={"150px"}
+                          borderRadius={"100%"}
+                        />
+                      )}
 
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          Monica Lucas
-                          <span className="profile_username">@monicaaaa</span>
-                          <span id="wallet" className="profile_wallet">
-                            UDHUHWudhwd78wdt7edb32uidbwyuidhg7wUHIFUHWewiqdj87dy7
+                          {author ? (
+                            author.authorName
+                          ) : (
+                            <Skeleton width={"200px"} />
+                          )}
+                          <span className="profile_username">
+                            {author ? author.tag : <Skeleton width={"100px"} />}
                           </span>
-                          <button id="btn_copy" title="Copy Text">
-                            Copy
-                          </button>
+                          <span id="wallet" className="profile_wallet">
+                            {author ? (
+                              author.address
+                            ) : (
+                              <Skeleton width={"200px"} />
+                            )}
+                          </span>
+                          {author && (
+                            <button
+                              id="btn_copy"
+                              title="Copy Text"
+                              onClick={() =>
+                                navigator.clipboard.writeText(author.address)
+                              }>
+                              Copy
+                            </button>
+                          )}
                         </h4>
                       </div>
                     </div>
                   </div>
                   <div className="profile_follow de-flex">
                     <div className="de-flex-col">
-                      <div className="profile_follower">573 followers</div>
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
+                      <div className="profile_follower">
+                        {author ? (
+                          followers + " followers"
+                        ) : (
+                          <Skeleton width={"150px"} height={"40px"} />
+                        )}{" "}
+                      </div>
+                      {author && (
+                        <Link
+                          to="#"
+                          className="btn-main"
+                          onClick={handleFollow}>
+                          {followStatus}
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -55,7 +118,7 @@ const Author = () => {
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems />
+                  <AuthorItems author={author} />
                 </div>
               </div>
             </div>
