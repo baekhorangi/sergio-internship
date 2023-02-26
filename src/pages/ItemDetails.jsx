@@ -19,9 +19,7 @@ const ItemDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setTimeout(() => {
-      fetchItem();
-    }, 1000);
+    fetchItem();
   }, []);
 
   return (
