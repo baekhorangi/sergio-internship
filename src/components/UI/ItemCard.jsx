@@ -40,26 +40,26 @@ function ItemCard({ item, carousal }) {
             </div>
           </div>
         </div>
-        <Link to={`/item-details/${item && item.nftId}`}>
-          {item ? (
+        {item ? (
+          <Link to={`/item-details/${item && item.nftId}`}>
             <img
               src={item.nftImage}
               className="lazy nft__item_preview"
               alt=""
             />
-          ) : (
-            <Skeleton width={"100%"} height={"250px"} borderRadius={"8px"} />
-          )}
-        </Link>
+          </Link>
+        ) : (
+          <Skeleton width={"100%"} height={"250px"} borderRadius={"8px"} />
+        )}
       </div>
       <div className="nft__item_info">
-        <Link to={`/item-details/${item && item.nftId}`}>
-          {item ? (
+        {item ? (
+          <Link to={`/item-details/${item && item.nftId}`}>
             <h4>{item.title}</h4>
-          ) : (
-            <Skeleton width={"180px"} height={"25px"} />
-          )}
-        </Link>
+          </Link>
+        ) : (
+          <Skeleton width={"180px"} height={"25px"} />
+        )}
         <div className="nft__item_price">
           {item ? (
             item.price + " ETH"
