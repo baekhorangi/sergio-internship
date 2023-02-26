@@ -48,7 +48,11 @@ const ExploreItems = () => {
         <div
           className="col-md-12 text-center"
           onClick={() => setShownItems(shownItems + 4)}>
-          <Link to="" id="loadmore" className="btn-main lead">
+          <Link
+            to=""
+            id="loadmore"
+            className="btn-main lead"
+            data-aos="fade-up">
             Load more
           </Link>
         </div>

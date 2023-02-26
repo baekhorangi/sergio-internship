@@ -35,6 +35,7 @@ const ItemDetails = () => {
                     src={item.nftImage}
                     className="img-fluid img-rounded mb-sm-30 nft-image"
                     alt=""
+                    data-aos="fade-right"
                   />
                 ) : (
                   <Skeleton width={"100%"} height={"100%"} />
@@ -43,12 +44,15 @@ const ItemDetails = () => {
               <div className="col-md-6">
                 <div className="item_info">
                   {item ? (
-                    <h2>{item.title}</h2>
+                    <h2 data-aos="fade-up">{item.title}</h2>
                   ) : (
                     <Skeleton width={"300px"} height={"40px"} />
                   )}
 
-                  <div className="item_info_counts">
+                  <div
+                    className="item_info_counts"
+                    data-aos="fade-up"
+                    data-aos-delay="250">
                     {item ? (
                       <>
                         <div className="item_info_views">
@@ -68,16 +72,23 @@ const ItemDetails = () => {
                     )}
                   </div>
                   {item ? (
-                    <p>{item.description}</p>
+                    <p data-aos="fade-up" data-aos-delay="500">
+                      {item.description}
+                    </p>
                   ) : (
                     <Skeleton width={"100%"} height={"80px"} />
                   )}
 
                   <div className="d-flex flex-row">
                     <div className="mr40">
-                      <h6>Owner</h6>
+                      <h6 data-aos="fade" data-aos-delay="750">
+                        Owner
+                      </h6>
                       <div className="item_author">
-                        <div className="author_list_pp">
+                        <div
+                          className="author_list_pp"
+                          data-aos="fade-left"
+                          data-aos-delay="1000">
                           {item ? (
                             <Link to={`/author/${item.ownerId}`}>
                               <img
@@ -95,7 +106,10 @@ const ItemDetails = () => {
                             />
                           )}
                         </div>
-                        <div className="author_list_info">
+                        <div
+                          className="author_list_info"
+                          data-aos="fade-left"
+                          data-aos-delay="1000">
                           {item ? (
                             <Link to={`/author/${item?.ownerId}`}>
                               {item.ownerName}
@@ -110,9 +124,14 @@ const ItemDetails = () => {
                   </div>
                   <div className="de_tab tab_simple">
                     <div className="de_tab_content">
-                      <h6>Creator</h6>
+                      <h6 data-aos="fade" data-aos-delay="750">
+                        Creator
+                      </h6>
                       <div className="item_author">
-                        <div className="author_list_pp">
+                        <div
+                          className="author_list_pp"
+                          data-aos="fade-left"
+                          data-aos-delay="1000">
                           {item ? (
                             <Link to={`/author/${item.creatorId}`}>
                               <img
@@ -130,7 +149,10 @@ const ItemDetails = () => {
                             />
                           )}
                         </div>
-                        <div className="author_list_info">
+                        <div
+                          className="author_list_info"
+                          data-aos="fade-left"
+                          data-aos-delay="1000">
                           {item ? (
                             <Link to={`/author/${item.creatorId}`}>
                               {item.creatorName}
@@ -143,7 +165,10 @@ const ItemDetails = () => {
                     </div>
                     <div className="spacer-40"></div>
                     <h6>Price</h6>
-                    <div className="nft-item-price">
+                    <div
+                      className="nft-item-price"
+                      data-aos="fade-left"
+                      data-aos-delay="1250">
                       {item ? (
                         <>
                           <img src={EthImage} alt="" />
